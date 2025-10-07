@@ -3,7 +3,7 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7390:13:TIM_OC4_SetConfig	6
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7468:13:TIM_OC5_SetConfig	6
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7522:13:TIM_OC6_SetConfig	6
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7577:26:TIM_SlaveTimer_SetConfig.constprop	20
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7577:26:TIM_SlaveTimer_SetConfig.constprop	16
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:384:13:HAL_TIM_Base_MspInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:399:13:HAL_TIM_Base_MspDeInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:341:19:HAL_TIM_Base_DeInit	3
@@ -19,9 +19,9 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:806:19:HAL_TIM_OC_Start	26
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:862:19:HAL_TIM_OC_Stop	15
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:897:19:HAL_TIM_OC_Start_IT	26
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:990:19:HAL_TIM_OC_Stop_IT	19
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:990:19:HAL_TIM_OC_Stop_IT	17
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1067:19:HAL_TIM_OC_Start_DMA	52
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1231:19:HAL_TIM_OC_Stop_DMA	19
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1231:19:HAL_TIM_OC_Stop_DMA	17
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1437:13:HAL_TIM_PWM_MspInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1452:13:HAL_TIM_PWM_MspDeInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:1394:19:HAL_TIM_PWM_DeInit	3
@@ -37,9 +37,9 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2141:19:HAL_TIM_IC_Start	30
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2193:19:HAL_TIM_IC_Stop	8
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2223:19:HAL_TIM_IC_Start_IT	30
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2315:19:HAL_TIM_IC_Stop_IT	17
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2315:19:HAL_TIM_IC_Stop_IT	13
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2387:19:HAL_TIM_IC_Start_DMA	32
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2546:19:HAL_TIM_IC_Stop_DMA	18
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2546:19:HAL_TIM_IC_Stop_DMA	14
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2765:13:HAL_TIM_OnePulse_MspInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2780:13:HAL_TIM_OnePulse_MspDeInit	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2720:19:HAL_TIM_OnePulse_DeInit	3
@@ -64,7 +64,7 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5237:19:HAL_TIM_DMABurst_ReadStop	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5321:19:HAL_TIM_GenerateEvent	2
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5360:19:HAL_TIM_ConfigOCrefClear	42
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5562:19:HAL_TIM_ConfigClockSource	22
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5562:19:HAL_TIM_ConfigClockSource	21
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5730:19:HAL_TIM_ConfigTI1Input	1
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5762:19:HAL_TIM_SlaveConfigSynchro	3
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:5802:19:HAL_TIM_SlaveConfigSynchro_IT	3

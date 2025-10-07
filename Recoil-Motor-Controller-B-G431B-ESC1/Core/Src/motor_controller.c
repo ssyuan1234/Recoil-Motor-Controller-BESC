@@ -340,11 +340,45 @@ void MotorController_update(MotorController *controller) {
   // this is also quite time-sensitive
   // if issuing new I2C frame, takes 1.4 us to run (3%)
   // else takes 1.1 us to run (2%)
-  HAL_StatusTypeDef status = Encoder_update(&controller->encoder);
-  if (status != HAL_OK) {
-    controller->error |= ERROR_ENCODER_FAULT;
-    MotorController_setMode(controller, MODE_DAMPING);
-  }
+
+
+  //encoder seems to be vulnerable to interference and fail easily even after successful init
+
+
+  /*
+    if (status != HAL_OK) {
+      controller->error |= ERROR_ENCODER_FAULT;
+
+      MotorController_setMode(controller, MODE_DAMPING);
+    }
+
+    */
+
+    // static counter persists across calls
+    static uint8_t encoder_error_count = 0;      //this is how static works in a function, very nice!!
+
+    HAL_StatusTypeDef status = Encoder_update(&controller->encoder);
+
+    if (status != HAL_OK) {
+        // only count errors if not in calibration
+        if (controller->mode != MODE_CALIBRATION) {
+            if (++encoder_error_count > 5) {
+                controller->error |= ERROR_ENCODER_FAULT;
+                MotorController_setMode(controller, MODE_DAMPING);
+            }
+        }
+    } else {
+        // reset counter on success
+        encoder_error_count = 0;
+        }
+
+
+
+
+
+
+
+
 
   // this block takes 0.5 us to run (1%)
   controller->position_controller.position_measured = Encoder_getPosition(&controller->encoder) / controller->position_controller.gear_ratio;

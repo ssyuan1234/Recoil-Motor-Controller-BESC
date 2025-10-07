@@ -37,7 +37,7 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2141:19:HAL_TIM_IC_Start	0	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2193:19:HAL_TIM_IC_Stop	4	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2223:19:HAL_TIM_IC_Start_IT	0	static
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2315:19:HAL_TIM_IC_Stop_IT	4	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2315:19:HAL_TIM_IC_Stop_IT	0	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2387:19:HAL_TIM_IC_Start_DMA	16	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2546:19:HAL_TIM_IC_Stop_DMA	16	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:2765:13:HAL_TIM_OnePulse_MspInit	0	static
@@ -83,7 +83,7 @@
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:6023:13:HAL_TIM_PWM_PulseFinishedHalfCpltCallback	0	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:6892:6:TIM_DMADelayPulseHalfCplt	8	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:6038:13:HAL_TIM_TriggerCallback	0	static
-../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:3846:6:HAL_TIM_IRQHandler	24	static
+../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:3846:6:HAL_TIM_IRQHandler	16	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7070:13:TIM_DMATriggerCplt	8	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:6053:13:HAL_TIM_TriggerHalfCpltCallback	0	static
 ../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c:7091:13:TIM_DMATriggerHalfCplt	8	static
