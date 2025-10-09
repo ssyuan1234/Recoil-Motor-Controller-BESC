@@ -18,6 +18,10 @@
 #include "motor_controller_conf.h"
 
 
+#pragma message ("ENCODER_DIRECTION = " STR(ENCODER_DIRECTION))
+#pragma message ("ENCODER_PRECISION_BITS = " STR(ENCODER_PRECISION_BITS))
+
+
 #define AS5600_I2C_ADDR             0x36U
 
 #define AS5600_ZMCO_ADDR            0x00U

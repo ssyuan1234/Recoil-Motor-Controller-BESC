@@ -14,6 +14,15 @@ HAL_StatusTypeDef Encoder_init(Encoder *encoder, I2C_HandleTypeDef *hi2c) {
 
   encoder->cpr = ENCODER_DIRECTION * (1 << ENCODER_PRECISION_BITS);  // 12 bit precision
 
+
+  //debugging to find out why cpr = 0 at later stage
+
+  printf("ENCODER_DIRECTION=%d, ENCODER_PRECISION_BITS=%d, CPR=%ld\r\n",
+         ENCODER_DIRECTION, ENCODER_PRECISION_BITS, encoder->cpr);
+
+
+
+
   encoder->position_offset = 0.f;
 
   // defaults to be 2000 Hz cutoff, out of 10 kHz loop

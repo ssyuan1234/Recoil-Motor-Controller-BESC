@@ -44,6 +44,8 @@ void MotorController_init(MotorController *controller) {
   if (status && !init_error_step) init_error_step = 2;
   status |= PowerStage_init(&controller->powerstage, &htim1, &hadc1, &hadc2);
   if (status && !init_error_step) init_error_step = 3;
+
+
   status |= Motor_init(&controller->motor);
   if (status && !init_error_step) init_error_step = 4;
 
@@ -51,6 +53,8 @@ void MotorController_init(MotorController *controller) {
   if (status && !init_error_step) init_error_step = 5;
   status |= PositionController_init(&controller->position_controller);
   if (status && !init_error_step) init_error_step = 6;
+
+
 
   status |= MotorController_loadConfig(controller);
   if (status && !init_error_step) init_error_step = 7;
@@ -73,6 +77,14 @@ void MotorController_init(MotorController *controller) {
   status |= HAL_TIM_Base_Start_IT(&htim2);    // safety watchdog timer
   status |= HAL_TIM_Base_Start(&htim6);       // time keeper timer
   status |= HAL_TIM_Base_Start_IT(&htim8);    // fast frame timer
+
+
+
+  if (!status) {
+	  printf("encoder update failed");
+  }
+
+
   if (status && !init_error_step) init_error_step = 11;
 
   __HAL_TIM_SET_AUTORELOAD(&htim2, (controller->watchdog_timeout * 10) - 1);
@@ -102,6 +114,7 @@ void MotorController_init(MotorController *controller) {
         // error loop
       }
     }
+
   }
 
   #if !LOAD_ID_FROM_FLASH || !LOAD_CONFIG_FROM_FLASH || !LOAD_CALIBRATION_FROM_FLASH
@@ -115,6 +128,11 @@ void MotorController_init(MotorController *controller) {
   // change mode to idle
   MotorController_clearError(controller);
   MotorController_setMode(controller, MODE_IDLE);
+
+
+
+
+
 }
 
 void MotorController_reset(MotorController *controller) {
@@ -200,6 +218,10 @@ void MotorController_setMode(MotorController *controller, Mode mode) {
       return;  // return directly, do not update mode
   }
   controller->mode = mode;
+
+  //HAL_Delay(10);  // wait for state machine to switch
+
+
 }
 
 void MotorController_setFluxAngle(MotorController *controller, float angle_setpoint, float voltage_setpoint) {
@@ -217,6 +239,9 @@ HAL_StatusTypeDef MotorController_loadConfig(MotorController *controller) {
   MotorController *controller_config = (MotorController *)FLASH_CONFIG_ADDRESS;
 
   controller->firmware_version                                  = FIRMWARE_VERSION;
+
+  //Encoder_update(&controller->encoder);
+
 
   #if LOAD_CALIBRATION_FROM_FLASH
     if (isnan(controller_config->encoder.flux_offset)) return HAL_ERROR;
@@ -272,14 +297,25 @@ HAL_StatusTypeDef MotorController_loadConfig(MotorController *controller) {
     if (isnan(controller_config->motor.max_calibration_current))             return HAL_ERROR;
     controller->motor.max_calibration_current                   = controller_config->motor.max_calibration_current;
 
-    controller->encoder.cpr                                     = controller_config->encoder.cpr;
+
+    if (controller_config->encoder.cpr != 0 && controller_config->encoder.cpr != 0xFFFFFFFF)
+        controller->encoder.cpr = controller_config->encoder.cpr;
+
+
+    //controller->encoder.cpr                                     = controller_config->encoder.cpr;
     if (isnan(controller_config->encoder.position_offset))                   return HAL_ERROR;
     controller->encoder.position_offset                         = controller_config->encoder.position_offset;
     if (isnan(controller_config->encoder.position_offset))                   return HAL_ERROR;
     controller->encoder.velocity_filter_alpha                   = controller_config->encoder.velocity_filter_alpha;
   #endif
 
+  //Encoder_update(&controller->encoder);
+
+
   MotorController_reset(controller);
+
+  //Encoder_update(&controller->encoder);
+
 
   return HAL_OK;
 }
@@ -329,6 +365,10 @@ void MotorController_update(MotorController *controller) {
   //  - 10kHz I2C transaction rate
   //  - float32 calculation
 
+
+  //HAL_StatusTypeDef status = Encoder_update(&controller->encoder);
+
+
   // this is the most time-sensitive
   // takes 1.5 us to run (3%)
   PowerStage_updatePhaseCurrent(&controller->powerstage,
@@ -371,12 +411,6 @@ void MotorController_update(MotorController *controller) {
         // reset counter on success
         encoder_error_count = 0;
         }
-
-
-
-
-
-
 
 
 
@@ -646,6 +680,12 @@ void MotorController_handleCANMessage(MotorController *controller, CAN_Frame *rx
   switch (func_id) {
     case FUNC_NMT:
       MotorController_handleNMT(controller, rx_frame);
+      // echo back the received data
+      tx_frame.id = (FUNC_TRANSMIT_PDO_1 << 7) | controller->device_id;
+      tx_frame.size = 8;
+      *((uint32_t *)tx_frame.data + 0) = *((uint32_t *)rx_frame->data + 0);
+      *((uint32_t *)tx_frame.data + 1) = *((uint32_t *)rx_frame->data + 1);
+      __HAL_TIM_SET_COUNTER(&htim2, 0);
       break;
     
     case FUNC_SYNC_EMCY:
@@ -655,6 +695,14 @@ void MotorController_handleCANMessage(MotorController *controller, CAN_Frame *rx
 
     case FUNC_RECEIVE_SDO:
       MotorController_handleSDO(controller, rx_frame, &tx_frame);
+
+      // echo back the received data
+ //     tx_frame.id = (FUNC_TRANSMIT_PDO_1 << 7) | controller->device_id;
+ //     tx_frame.size = 8;
+  //    *((uint32_t *)tx_frame.data + 0) = *((uint32_t *)rx_frame->data + 0);
+  //    *((uint32_t *)tx_frame.data + 1) = *((uint32_t *)rx_frame->data + 1);
+      __HAL_TIM_SET_COUNTER(&htim2, 0);
+
       break;
 
     case FUNC_RECEIVE_PDO_1:
@@ -729,6 +777,8 @@ void MotorController_handleNMT(MotorController *controller, CAN_Frame *rx_frame)
   }
   
   MotorController_setMode(controller, requested_state);
+  //HAL_Delay(10);  // wait for state machine to switch
+
 }
 
 void MotorController_handleSDO(MotorController *controller, CAN_Frame *rx_frame, CAN_Frame *tx_frame) {
@@ -736,6 +786,19 @@ void MotorController_handleSDO(MotorController *controller, CAN_Frame *rx_frame,
     controller->error |= ERROR_CAN_RX_FAULT;
     return;
   }
+
+  //add when cpr is set to zero during load config method
+  //if (controller->encoder.cpr == 0)
+  //    controller->encoder.cpr = 4096;
+
+  HAL_I2C_Master_Receive(controller->encoder.hi2c,
+                         AS5600_I2C_ADDR << 1,
+                         controller->encoder.i2c_buffer,
+                         2,
+                         HAL_MAX_DELAY);
+
+  Encoder_update(&controller->encoder);   // Force a fresh I2C read + compute
+  //HAL_Delay(2);                           // Small delay to let I2C finish (for testing)
 
   uint8_t command = *((uint8_t *)rx_frame->data);
 
@@ -761,6 +824,23 @@ void MotorController_handleSDO(MotorController *controller, CAN_Frame *rx_frame,
       // by default running at 100Hz to reduce overhead
       __HAL_TIM_SET_AUTORELOAD(&htim8, (10000 / 100) - 1);
     }
+
+
+
+    // --- ADD THIS PART --- from chatgpt
+    tx_frame->id = (FUNC_TRANSMIT_SDO << 7) | controller->device_id;
+    tx_frame->size = 4;
+    // 0x60 = "SDO download response" (success)
+    *((uint32_t *)tx_frame->data) = 0x60 | (parameter_id << 8);
+
+
+    // Append motor position (assume float, 4 bytes)
+    float motor_position = controller->encoder.position;  // or controller->motor_position
+    memcpy(&tx_frame->data[4], &motor_position, sizeof(float));
+
+    // Total size = 8 bytes (4 for SDO header + 4 for position)
+    tx_frame->size = 8;
+
   }
   else if (ccs == 2) {
     // upload (read)

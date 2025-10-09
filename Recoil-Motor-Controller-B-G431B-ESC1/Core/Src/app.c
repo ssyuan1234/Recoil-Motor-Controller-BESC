@@ -132,6 +132,14 @@ float APP_getUserPot() {
 
 
 void APP_main() {
+
+  HAL_StatusTypeDef status = Encoder_update(&controller.encoder);
+
+  if (status != HAL_OK) {
+      printf("Encoder update failed: %d\r\n", status);
+  }
+
+
   MotorController_updateService(&controller);
 
 //  if (APP_getUserButton()) {
