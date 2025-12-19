@@ -37,6 +37,9 @@
 #define AS5600_BURN_ADDR            0xFFU
 
 
+extern uint8_t encoder_i2c_busy;
+
+
 /**
  * @brief Encoder object.
  */

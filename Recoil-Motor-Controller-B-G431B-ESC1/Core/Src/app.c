@@ -62,9 +62,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   }
 }
 
+
+//chatgpt deletes this since another one is added in stm32g4xx_it.c
+
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
   // do nothing here
+
+
+	if (hi2c->Instance == I2C1)
+	{
+		encoder_i2c_busy = 0;
+	}
 }
+
 
 /**
  * Procedure following G431 User Manual Section 4.4.2 Option bytes programming

@@ -8,6 +8,16 @@
 #include "motor_controller.h"
 
 
+// ADDED: Offsets in MotorController struct matching SDO Parameter IDs
+// These must stay in sync with core.py's Parameter enum.
+#define PARAM_POSITION_CONTROLLER_TORQUE_TARGET     0x044  // ADDED
+#define PARAM_POSITION_CONTROLLER_VELOCITY_TARGET   0x050  // ADDED
+#define PARAM_POSITION_CONTROLLER_POSITION_TARGET   0x05C  // ADDED
+
+
+
+
+
 extern ADC_HandleTypeDef hadc1;
 extern ADC_HandleTypeDef hadc2;
 extern FDCAN_HandleTypeDef hfdcan1;
@@ -816,6 +826,27 @@ void MotorController_handleSDO(MotorController *controller, CAN_Frame *rx_frame,
   if (ccs == 1) {
     // download (write)
     *((uint32_t *)((uint8_t *)controller + parameter_id)) = *((uint32_t *)rx_frame->data + 1);
+
+
+    // ADDED: auto-switch control mode when writing targets via SDO
+    if (parameter_id == PARAM_POSITION_CONTROLLER_POSITION_TARGET) {            // ADDED
+      MotorController_setMode(controller, MODE_POSITION);                        // ADDED
+      PositionController_reset(&controller->position_controller);               // ADDED
+    } else if (parameter_id == PARAM_POSITION_CONTROLLER_VELOCITY_TARGET) {     // ADDED
+      MotorController_setMode(controller, MODE_VELOCITY);                        // ADDED
+      PositionController_reset(&controller->position_controller);               // ADDED
+    } else if (parameter_id == PARAM_POSITION_CONTROLLER_TORQUE_TARGET) {       // ADDED
+      MotorController_setMode(controller, MODE_TORQUE);                          // ADDED
+      PositionController_reset(&controller->position_controller);               // ADDED
+    }                                                                           // ADDED END
+
+
+
+
+
+
+
+
 
     // update the fast frame frequency
     if (controller->fast_frame_frequency)

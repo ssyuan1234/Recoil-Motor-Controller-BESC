@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g4xx_it.h"
+#include "encoder.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -70,6 +71,20 @@ extern TIM_HandleTypeDef htim8;
 /**
   * @brief This function handles Non maskable interrupt.
   */
+
+//callback suggested by chatgpt
+
+/*
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+	if (hi2c->Instance == I2C1)
+	{
+		encoder_i2c_busy = 0;
+	}
+}
+*/
+
+
 void NMI_Handler(void)
 {
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
