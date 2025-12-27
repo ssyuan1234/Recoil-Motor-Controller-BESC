@@ -13,6 +13,7 @@ HAL_StatusTypeDef PositionController_init(PositionController *controller) {
 
   // defaults to 50 Hz cutoff frequency, out of 2000 Hz position control loop
   controller->torque_filter_alpha = 0.145364f;
+  //controller->torque_filter_alpha = 0.5;
 
   controller->position_kp = 1.f;
   controller->position_ki = 0.f;
@@ -28,7 +29,7 @@ HAL_StatusTypeDef PositionController_init(PositionController *controller) {
   controller->position_limit_upper = INFINITY;
   controller->position_offset = 0.f;
 
-  controller->torque_target = 0.f;
+  controller->torque_target = 0.05f;
   controller->torque_setpoint = 0.f;
   controller->velocity_target = 0.f;
   controller->velocity_setpoint = 0.f;
@@ -75,8 +76,7 @@ void PositionController_update(PositionController *controller, Mode mode) {
         -controller->torque_limit,
         controller->torque_limit);
 
-    torque_target =
-        controller->position_kp * position_error
+    torque_target = controller->position_kp * position_error
         + controller->velocity_kp * velocity_error
         + controller->position_integrator
         // feed forward torque

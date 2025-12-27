@@ -99,7 +99,6 @@ HAL_StatusTypeDef Encoder_update(Encoder *encoder) {
 
 
 
-/*
 
   // Calculate the change in reading
   int16_t reading_delta = encoder->position_raw - raw_reading;
@@ -119,8 +118,7 @@ HAL_StatusTypeDef Encoder_update(Encoder *encoder) {
 
 
 
-
-*/
+/*
 
   // ========== NEW UNWRAP LOGIC (robust, continuous) ==========
 
@@ -141,7 +139,7 @@ HAL_StatusTypeDef Encoder_update(Encoder *encoder) {
 
   encoder->n_rotations = 0;
 
-
+*/
 
   // Update the filtered velocity
   float velocity = delta_position * (float)COMMUTATION_FREQ;
