@@ -61,7 +61,7 @@ void PositionController_update(PositionController *controller, Mode mode) {
   //           kd * kd_scale * velocity_error +
   //           command_torque
 
-  float torque_target = 0.f;
+  float torque_target = 0.f;        //comment to make commit
   if (mode == MODE_POSITION) {
     controller->position_setpoint = clampf(
         controller->position_target,
