@@ -32,6 +32,28 @@
 #endif
 */
 
+//the following two are added because the left arm is using different M6 and 5010
+//comments: using similar scaling law, 5010 - 200kv is veru close to esitmated number except for motor phase resisatnce
+// estimated number is 0.35 ohm while the number in the file is 0.15 ohm
+
+#ifdef MOTORPROFILE_MAD_M6C10_250KV
+#define MOTOR_POLE_PAIRS                      14
+#define MOTOR_TORQUE_CONSTANT                 0.0537f
+#define MOTOR_PHASE_RESISTANCE                0.0828f
+#define MOTOR_PHASE_INDUCTANCE                1.1e-05f
+#define MOTOR_CALIBRATION_CURRENT             5
+#endif
+
+#ifdef MOTORPROFILE_MAD_5010_240KV
+#define MOTOR_POLE_PAIRS                      14
+#define MOTOR_TORQUE_CONSTANT                 0.0539f
+#define MOTOR_PHASE_RESISTANCE                0.283f
+#define MOTOR_PHASE_INDUCTANCE                1.79e-05f
+#define MOTOR_CALIBRATION_CURRENT             3
+#endif
+
+
+
 #ifdef MOTORPROFILE_MAD_5010_110KV
 #define MOTOR_POLE_PAIRS                      14
 #define MOTOR_TORQUE_CONSTANT                 0.1176f

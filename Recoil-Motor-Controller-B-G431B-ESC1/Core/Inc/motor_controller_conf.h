@@ -38,7 +38,7 @@
  * Load ID from Flash Flag:
  * This flag specifies whether the device should load the ID configuration from Flash memory.
  */
-#define LOAD_ID_FROM_FLASH              1             // Set to 1 to load ID config from Flash, 0 to load default values
+#define LOAD_ID_FROM_FLASH              1            // Set to 1 to load ID config from Flash, 0 to load default values
 
 /**
  * Load Config from Flash Flag:
@@ -69,6 +69,10 @@
 /** ======== Motor Selection ======== **/
 
 #define MOTORPROFILE_MAD_M6C12_150KV
+//#define MOTORPROFILE_MAD_M6C10_250KV
+
+//#define MOTORPROFILE_MAD_5010_240KV
+
 //#define MOTORPROFILE_MAD_5010_110KV
 //#define MOTORPROFILE_MAD_5010_310KV
 //#define MOTORPROFILE_MAD_5010_370KV
